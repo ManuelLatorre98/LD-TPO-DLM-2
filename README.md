@@ -55,3 +55,11 @@ Compiled Erlang modules (ebin files) go in `site/ebin`
 By default Nitrogen comes with an application called [sync](http://github.com/rustyio/sync) which provides automatic code reloading when the related .erl file or .ebin file is updated.  To use this, run the following on the Erlang shell:
 
   sync:go().
+
+# Authors
+
+- ManuelLatorre
+- SantiagoVillaroel
+- CarlosFuentes
+- [SantinoCastagno](https://github.com/SantinoCastagno)
+
