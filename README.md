@@ -7,7 +7,9 @@ Framework](https://nitrogenproject.com).
 
 You can rebuild the project by typing:
 
+```bash
    make
+```
 
 If this fails, it likely means that its a slim release and Erlang is not
 installed on this machine. Please [install
