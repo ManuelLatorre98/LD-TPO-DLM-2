@@ -9,8 +9,16 @@ body {
     line-height: 32px;
 }
 
+#funca{
+    color:blue;
+}
+
 .container_12 {
     margin-top: 40px;
+}
+.header {
+    background-color: red;
+    color: blue;
 }
 
 h1 {
@@ -19,7 +27,7 @@ h1 {
     padding-bottom: 7px;
     border-bottom: dashed 1px #DDD;
     text-transform: uppercase;
-    font-size: 1.875em;
+    font-size: 5em;
     line-height: 1.066667em;
     margin-top: 1.6em;
     margin-bottom: 1.6em;
@@ -50,7 +58,7 @@ p {
 
 
 a, a:visited { 
-    color: #4488FF
+    color: #4488FF;
     text-decoration: none; 
 }
 
