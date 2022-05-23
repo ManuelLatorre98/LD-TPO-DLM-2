@@ -7,7 +7,9 @@ Framework](https://nitrogenproject.com).
 
 You can rebuild the project by typing:
 
-   make
+```bash
+make
+```
 
 If this fails, it likely means that its a slim release and Erlang is not
 installed on this machine. Please [install
@@ -17,17 +19,23 @@ Erlang](https://www.erlang-solutions.com/resources/download.html).
 
 You can start the application with:
 
-  bin/nitrogen start
+```bash
+bin/nitrogen start
+```
 
 which will start it in daemon mode.  You can attach to this started daemon
 with:
 
-  bin/nitrogen attach
+```bash
+bin/nitrogen attach
+```
 
 If you'd rather have an Erlang console right away, rather than starting a
 daemon, type:
 
-  bin/nitrogen console
+```bash
+bin/nitrogen console
+```
 
 # Config
 
@@ -54,4 +62,20 @@ Compiled Erlang modules (ebin files) go in `site/ebin`
 
 By default Nitrogen comes with an application called [sync](http://github.com/rustyio/sync) which provides automatic code reloading when the related .erl file or .ebin file is updated.  To use this, run the following on the Erlang shell:
 
-  sync:go().
+```bash
+sync:go().
+```
+
+Stop:
+
+```erl
+sync:stop().
+```
+
+# Authors
+
+- ManuelLatorre
+- SantiagoVillaroel
+- CarlosFuentes
+- [SantinoCastagno](https://github.com/SantinoCastagno)
+
