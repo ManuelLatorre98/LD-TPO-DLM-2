@@ -66,6 +66,12 @@ By default Nitrogen comes with an application called [sync](http://github.com/ru
 sync:go().
 ```
 
+Stop:
+
+```erl
+sync:stop().
+```
+
 # Authors
 
 - ManuelLatorre
