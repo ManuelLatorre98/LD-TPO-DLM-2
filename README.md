@@ -27,14 +27,14 @@ which will start it in daemon mode.  You can attach to this started daemon
 with:
 
 ```bash
-  bin/nitrogen attach
+bin/nitrogen attach
 ```
 
 If you'd rather have an Erlang console right away, rather than starting a
 daemon, type:
 
 ```bash
-  bin/nitrogen console
+bin/nitrogen console
 ```
 
 # Config
