@@ -1,0 +1,7 @@
+git checkout -b (nombre de la nueva rama) --> con esto creamos una nueva rama desde donde estamos parados.
+git branch --> muestra las ramas locales
+git branch -a --> muestra ramas locales y del repo
+git checkout (nombre de rama/codigo de commit) --> te desplaza a una rama o un commit
+git switch (nombre de la rama) --> te desplaza entre ramas locales
+git log --> veo los commits de la rama en la que me encuentro
+git branch -d (nombre de la rama) --> elimina la rama ,pararse en otra rama para ejecutar este comando
