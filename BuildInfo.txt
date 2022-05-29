@@ -1,5 +1,0 @@
-Nitrogen Version:
-2.4.0
-
-Built On (uname -v):
-#1 SMP Debian 5.10.113-1 (2022-04-29)

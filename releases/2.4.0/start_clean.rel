@@ -1,4 +1,0 @@
-%% coding: utf-8
-%% rel generated at {2022,5,23} {17,14,20}
-{release,{"start_clean",[]},{erts,"11.1.8"},[{kernel,"7.2"},{stdlib,"3.14"}]}.
-
