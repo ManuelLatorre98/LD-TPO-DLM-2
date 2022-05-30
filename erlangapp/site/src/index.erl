@@ -11,7 +11,7 @@ main() ->
                 wf:redirect_to_login("/login")
         end.
 
-title() -> "Welcome to Nitrogen".
+title() -> "Welcome to Nitrogenn".
 
 body() ->
     #container_12 {class=bodyContainer, body=[
