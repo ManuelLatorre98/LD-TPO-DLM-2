@@ -4,7 +4,7 @@
 -include_lib("nitrogen_core/include/wf.hrl").
 
 main() ->
-        case wf:role(managers) of
+        case wf:role(manager) of
             true ->
                 #template { file="./site/templates/bare.html" };
             false ->
