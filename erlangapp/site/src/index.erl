@@ -21,7 +21,7 @@ body() ->
 
 inner_body() -> 
     [
-        #h1 { text="Welcome to Nitrogen" },
+        
         #p{},
         "
         If you can see this page, then your Nitrogen server is up and
