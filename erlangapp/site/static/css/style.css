@@ -86,14 +86,18 @@ a:hover, a:active {
     font-size: 1.5em;
     border-bottom: 1px solid black;
     margin-bottom: 35px;
-    color:red;
+    
+}
+
+.colorTitulo{
+    color: red;
 }
 
 .field{
     min-width: 20vw;
     height: 30px;
     margin-bottom: 15px;
-    background-color: red;
+    background-color: whitesmoke;
     
 }
 .formButton{
