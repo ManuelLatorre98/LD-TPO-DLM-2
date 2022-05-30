@@ -45,11 +45,3 @@ event(click) ->
         actions=#effect { effect=highlight }
     }).
 
-
-test() -> 
-    #panel {class=form,body=[
-        #label{class=formTitle, text="Iniciar sesión"},
-        #textbox{class=field, size=10, placeholder="Nombre de usuario"},
-        #password{class=field, size=10, placeholder="Contraseña"},
-        #button{id=loginButton,class=formButton, text="Iniciar sesion", postback=login}
-    ]}.
