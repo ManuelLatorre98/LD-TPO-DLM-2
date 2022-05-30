@@ -5,3 +5,4 @@ git checkout (nombre de rama/codigo de commit) --> te desplaza a una rama o un c
 git switch (nombre de la rama) --> te desplaza entre ramas locales
 git log --> veo los commits de la rama en la que me encuentro
 git branch -d (nombre de la rama) --> elimina la rama ,pararse en otra rama para ejecutar este comando
+sync:go().
