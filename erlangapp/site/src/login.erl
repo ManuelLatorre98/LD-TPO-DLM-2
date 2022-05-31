@@ -20,7 +20,7 @@ join() ->
         #label{class=formTitle, text="Iniciar sesión"},
         #textbox{class=field, size=10, placeholder="Nombre de usuario"},
         #password{id=password,class=field, size=10, placeholder="Contraseña"},
-        #button{class=formButton, text="Iniciar sesionn", postback=login}
+        #button{class=formButton, text="Iniciar sesion", postback=login}
     ]}.
 
  event(login) ->
