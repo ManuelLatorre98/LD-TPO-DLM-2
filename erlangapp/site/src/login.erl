@@ -17,10 +17,14 @@ body() ->
 join() -> 
     #panel {class=form,body=[
         #flash {},
-        #label{class=formTitle, text="Iniciar sesión"},
-        #textbox{class=field, size=10, placeholder="Nombre de usuario"},
+        #label{class='formTitle colorTitulo', text="Iniciar sesión"},
+        #textbox{class='field', size=10, placeholder="Nombre de usuario"},
         #password{id=password,class=field, size=10, placeholder="Contraseña"},
+<<<<<<< HEAD
         #button{class=formButton, text="Iniciar sesion", postback=login}
+=======
+        #button{class='formButton', text="Iniciar sesionn", postback=login}
+>>>>>>> 5a7e5788ce98fda7c5f513213df8198978c604cd
     ]}.
 
  event(login) ->
