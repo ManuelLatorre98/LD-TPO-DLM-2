@@ -18,13 +18,13 @@ join() ->
     wf:wire(submit, username, #validate { validators=[
             #is_required { text="Required." }
         ]}),
-    wf:wire(submit, password, #validate { validators=[
-        #is_required { text="Required." },
-        #custom { 
-            text="Invalid password.", 
-            function=fun(_, Value) -> Value == "password" end
-        }
-    ]}),
+        wf:wire(submit, password, #validate { validators=[
+            #is_required { text="Required." },
+            #custom { 
+                text="Invalid password.", 
+                function=fun(_, Value) -> Value == "password" end
+            }
+        ]}),
     #panel {class=form,body=[
         #flash {},
         #label{class='formTitle', text="Iniciar sesión"},
@@ -34,5 +34,5 @@ join() ->
     ]}.
 
  event(login) ->
-    wf:role(managers, true),
-    wf:redirect_from_login("/").
+        wf:role(manager, true),
+        wf:redirect_from_login("/").
