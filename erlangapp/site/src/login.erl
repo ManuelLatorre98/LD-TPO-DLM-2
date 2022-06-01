@@ -6,28 +6,33 @@
 main() -> #template { file="./site/templates/bare.html" }.
         
 
-title() -> "Login".
+title() -> "Unconnect log in".
 
 body() ->
-    #container_12 {class=bodyContainer, body=[
+    #panel {class=bodyContainer, body=[
         join() %Podemos insertar los componentes asi nomas
     ]}.
 
 
 join() -> 
+    wf:wire(submit, username, #validate { validators=[
+            #is_required { text="Required." }
+        ]}),
+    wf:wire(submit, password, #validate { validators=[
+        #is_required { text="Required." },
+        #custom { 
+            text="Invalid password.", 
+            function=fun(_, Value) -> Value == "password" end
+        }
+    ]}),
     #panel {class=form,body=[
         #flash {},
-        #label{class='formTitle colorTitulo', text="Iniciar sesión"},
-        #textbox{class='field', size=10, placeholder="Nombre de usuario"},
-        #password{id=password,class=field, size=10, placeholder="Contraseña"},
-        #button{class='formButton', text="Iniciar sesionn", postback=login}
+        #label{class='formTitle', text="Iniciar sesión"},
+        #textbox{id='username',class='field', size=10, placeholder="Nombre de usuario"},
+        #password{id='password',class=field, size=10, placeholder="Contraseña"},
+        #button{id='submit',class='formButton', text="Iniciar sesion", postback=login}
     ]}.
 
  event(login) ->
-        case wf:q(password) == "password" of
-            true ->
-                wf:role(manager, true),
-                wf:redirect_from_login("/");
-            false ->
-                wf:flash("Invalid password.")
-        end.
+    wf:role(managers, true),
+    wf:redirect_from_login("/").
