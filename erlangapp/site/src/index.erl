@@ -11,7 +11,7 @@ main() ->
                 wf:redirect_to_login("/login")
         end.
 
-title() -> "Unconnect".
+title() -> "Unconnec".
 
 body() ->
     #panel {class=bodyContainer, body=[
