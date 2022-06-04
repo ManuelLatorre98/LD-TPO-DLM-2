@@ -6,11 +6,21 @@ main() -> #template { file="./site/templates/bare.html"}.
 
 title() -> "Home".
 
-body(nombreUsuario) -> 
-    #panel { class='form',body=[
-        #label{class='userName', text=nombreUsuario}
+body() -> 
+
+    #container_12 {class=bodyContainer, body=[
+        
+        join()
+    ]}.
+    
+join() -> 
+    CurrentUser =  wf:user() ,
+    #panel {class=form,body=[
+        
+     
+        #label{class='userName', text=CurrentUser},
+        #label{text="HOLA"}
         
     ]}.
-
 
 
