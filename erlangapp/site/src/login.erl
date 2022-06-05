@@ -2,6 +2,7 @@
 -module (login).
 -compile(export_all).
 -include_lib("nitrogen_core/include/wf.hrl").
+-import(messenger,[logon/1]).
 
 main() -> #template { file="./site/templates/bare.html" }.
         
@@ -27,12 +28,15 @@ join() ->
         ]}),
     #panel {class=form,body=[
         #flash {},
-        #label{class='formTitle', text="Iniciar sesión"},
-        #textbox{id='username',class='field', size=10, placeholder="Nombre de usuario"},
-        #password{id='password',class=field, size=10, placeholder="Contraseña"},
-        #button{id='submit',class='formButton', text="Iniciar sesion", postback=login}
+        #label{class='formTitle colorTitulo', text="Iniciar sesión"},
+        #textbox{id=nombreUsuario ,class='field', size=10, placeholder="Nombre de usuario"},
+        %#password{id=password,class=field, size=10, placeholder="Contraseña"},
+        #button{class='formButton', text="Iniciar sesion", postback=login}
     ]}.
 
  event(login) ->
-        wf:role(manager, true),
-        wf:redirect_from_login("/").
+        User = wf:q(nombreUsuario),
+        messenger:logon(User),
+        wf:user(User),
+        wf:redirect_from_login("/home").
+
