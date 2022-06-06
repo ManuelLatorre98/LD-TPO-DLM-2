@@ -64,7 +64,10 @@ a:hover, a:active {
 
 
 .bodyContainer{
-   
+   display: grid;
+   grid-template-columns: 30% 70%;
+   gap: 20px;
+   height: 800px;
 }
 
 .form{
@@ -77,7 +80,17 @@ a:hover, a:active {
     margin: auto;
     margin-top: 100px;
 }
+.usuariosConectados{
+    
+    border: 1px solid black;
+    
 
+}
+.mensaje{
+    
+    border: 1px solid black;
+    
+}
 .formTitle{
     width: auto;
     text-align: center;
@@ -88,7 +101,17 @@ a:hover, a:active {
 }
 
 .colorTitulo{
-    color: black;
+    color: red;
+}
+
+.cajaTexto{
+    width: 70%;
+}
+#sendButton{
+    color: red;
+}
+.userName{
+    color: violet;
 }
 
 .field{

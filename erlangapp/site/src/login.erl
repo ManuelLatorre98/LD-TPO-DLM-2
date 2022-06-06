@@ -17,7 +17,6 @@ body() ->
 
 join() -> 
     #panel {class=form,body=[
-        #flash {},
         #label{class='formTitle colorTitulo', text="Iniciar sesión"},
         #textbox{id=nombreUsuario ,class='field', size=10, placeholder="Nombre de usuario"},
         %#password{id=password,class=field, size=10, placeholder="Contraseña"},

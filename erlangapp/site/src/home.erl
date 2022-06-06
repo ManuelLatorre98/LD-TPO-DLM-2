@@ -9,17 +9,26 @@ title() -> "Home".
 body() -> 
 
     #container_12 {class=bodyContainer, body=[
-        
-        join()
+        left(),
+        mid()
     ]}.
     
-join() -> 
+
+left() ->
+    #panel {class='usuariosConectados' ,body=[
+         #label{class='userName', text="Usuarios Conectados:"}   
+
+    ]}.
+
+mid() -> 
     CurrentUser =  wf:user() ,
-    #panel {class=form,body=[
+    #panel {class='mensaje',body=[
         
      
         #label{class='userName', text=CurrentUser},
-        #label{text="HOLA"}
+        #textbox { id=messageTextBox, class='cajaTexto', next=sendButton },
+        #button { id=sendButton, text="Enviar", postback={chat} }
+
         
     ]}.
 
