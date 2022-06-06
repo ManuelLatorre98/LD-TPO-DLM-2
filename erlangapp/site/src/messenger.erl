@@ -50,11 +50,11 @@
 
 -module(messenger).
 -export([start_server/0, server/1, logon/1, logoff/0, message/2, client/2]).
-
+-compile(export_all).
 %%% Change the function below to return the name of the node where the
 %%% messenger server runs
 server_node() ->
-    messenger@lemon.
+    messenger@manuel.
 
 %%% This is the server process for the "messenger"
 %%% the user list has the format [{ClientPid1, Name1},{ClientPid22, Name2},...]

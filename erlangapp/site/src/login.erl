@@ -2,7 +2,7 @@
 -module (login).
 -compile(export_all).
 -include_lib("nitrogen_core/include/wf.hrl").
--import(messenger,[logon/1]).
+
 
 main() -> #template { file="./site/templates/bare.html" }.
         
@@ -16,16 +16,16 @@ body() ->
 
 
 join() -> 
-    wf:wire(submit, username, #validate { validators=[
+    wf:wire(submit, nombreUsuario, #validate { validators=[
             #is_required { text="Required." }
         ]}),
-        wf:wire(submit, password, #validate { validators=[
-            #is_required { text="Required." },
-            #custom { 
-                text="Invalid password.", 
-                function=fun(_, Value) -> Value == "password" end
-            }
-        ]}),
+        % wf:wire(submit, password, #validate { validators=[
+        %     #is_required { text="Required." },
+        %     #custom { 
+        %         text="Invalid password.", 
+        %         function=fun(_, Value) -> Value == "password" end
+        %     }
+        % ]}),
     #panel {class=form,body=[
         #flash {},
         #label{class='formTitle colorTitulo', text="Iniciar sesión"},
@@ -35,8 +35,9 @@ join() ->
     ]}.
 
  event(login) ->
-        User = wf:q(nombreUsuario),
-        messenger:logon(User),
+        User = list_to_atom(wf:q(nombreUsuario)),
         wf:user(User),
+        ?PRINT(User),
+        messenger:logon(User),
         wf:redirect_from_login("/home").
 
