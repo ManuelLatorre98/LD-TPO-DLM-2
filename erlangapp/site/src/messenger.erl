@@ -49,7 +49,7 @@
 %%% name of the node where the messenger server runs
 
 -module(messenger).
--export([start_server/0, server/1, logon/1, logoff/0, message/2, client/2]).
+-export([start_server/0,get_user_list/0, server/1, logon/1, logoff/0, message/2, client/2]).
 
 %%% Change the function below to return the name of the node where the
 %%% messenger server runs
@@ -69,6 +69,9 @@ server(User_List) ->
         {From, message_to, To, Message} ->
             server_transfer(From, To, Message, User_List),
             io:format("list is now: ~p~n", [User_List]),
+            server(User_List);
+        {From,user_list,User_List} ->
+            io:format("FLAGGG ~n"),
             server(User_List)
     end.
 
@@ -127,6 +130,9 @@ logon(Name) ->
 logoff() ->
     mess_client ! logoff.
 
+get_user_list() -> 
+    mess_client ! user_list.
+
 message(ToName, Message) ->
     case whereis(mess_client) of % Test if the client is running
         undefined ->
@@ -151,7 +157,10 @@ client(Server_Node) ->
             {messenger, Server_Node} ! {self(), message_to, ToName, Message},
             await_result();
         {message_from, FromName, Message} ->
-            io:format("Message from ~p: ~p~n", [FromName, Message])
+            io:format("Message from ~p: ~p~n", [FromName, Message]);
+        user_list -> 
+            {messenger, Server_Node} ! {self(),user_list,User_List},
+            io:format("list is now: ~p~n", [User_List])
     end,
     client(Server_Node).
 

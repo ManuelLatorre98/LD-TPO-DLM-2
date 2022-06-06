@@ -2,7 +2,7 @@
 -module (login).
 -compile(export_all).
 -include_lib("nitrogen_core/include/wf.hrl").
--import(messenger,[logon/1]).
+%-import(messenger,[logon/1]).
 
 main() -> #template { file="./site/templates/bare.html" }.
         
@@ -25,7 +25,9 @@ join() ->
 
  event(login) ->
         User = wf:q(nombreUsuario),
-        messenger:logon(User),
+        messenger:logon(list_to_atom(User)),
+        ?PRINT(messenger:server(user_list)), %messenger:server(user_list),
         wf:user(User),
         wf:redirect_from_login("/home").
 
+%K2DNKVSOZt6iT1W3Vpbhjlt6emd9sK9g6OIedMhMKotcDEbZ71SlhQSi7J3SuXz
