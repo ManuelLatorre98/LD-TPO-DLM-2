@@ -132,9 +132,18 @@ logoff() ->
     mess_client ! logoff.
 
 get_user_list() -> 
-    Aux = mess_client ! user_list,
-    io:format("TESTT AUX: ~p~n", [Aux]).
+    mess_client ! {self(),user_list},
+    ListaUsuarios=await_result_client(),
+    ListaNombres=get_nombres(ListaUsuarios,[]),
+    %io:format("TESTT AUX: ~p~n", [ListaNombres]),
+    ListaNombres.
     
+get_nombres([{Pid,Nombre}|T],NewList)-> 
+    get_nombres(T,[Nombre|NewList]);
+
+get_nombres([{Pid,Nombre}],NewList)->[Nombre|NewList];
+
+get_nombres([],NewList)->NewList.
 
 message(ToName, Message) ->
     case whereis(mess_client) of % Test if the client is running
@@ -161,10 +170,10 @@ client(Server_Node) ->
             await_result();
         {message_from, FromName, Message} ->
             io:format("Message from ~p: ~p~n", [FromName, Message]);
-        user_list -> 
+        {From,user_list} -> 
             {messenger, Server_Node} ! {self(),user_list},
             Aux = await_result(),
-            Aux
+            From ! {lista,Aux}
                 
     end,
     client(Server_Node).
@@ -180,4 +189,10 @@ await_result() ->
         {messenger, data ,What}->
             io:format("chequeo respuesta :~p~n", [What]),
             What
+    end.
+
+await_result_client() -> 
+    receive
+        {lista,Respuesta} ->
+            Respuesta
     end.
