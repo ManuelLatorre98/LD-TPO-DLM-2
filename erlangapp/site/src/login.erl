@@ -26,7 +26,7 @@ join() ->
  event(login) ->
         User = wf:q(nombreUsuario),
         messenger:logon(list_to_atom(User)),
-        ?PRINT(messenger:server(user_list)), %messenger:server(user_list),
+        %?PRINT(messenger:server(user_list)), %messenger:server(user_list),
         wf:user(User),
         wf:redirect_from_login("/home").
 

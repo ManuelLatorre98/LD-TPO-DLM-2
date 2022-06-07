@@ -70,8 +70,9 @@ server(User_List) ->
             server_transfer(From, To, Message, User_List),
             io:format("list is now: ~p~n", [User_List]),
             server(User_List);
-        {From,user_list,User_List} ->
-            io:format("FLAGGG ~n"),
+        {From,user_list} ->
+            %io:format("FLAGGG ~p ~n",User_List),
+            From ! {messenger,data, User_List},
             server(User_List)
     end.
 
@@ -131,7 +132,9 @@ logoff() ->
     mess_client ! logoff.
 
 get_user_list() -> 
-    mess_client ! user_list.
+    Aux = mess_client ! user_list,
+    io:format("TESTT AUX: ~p~n", [Aux]).
+    
 
 message(ToName, Message) ->
     case whereis(mess_client) of % Test if the client is running
@@ -159,8 +162,10 @@ client(Server_Node) ->
         {message_from, FromName, Message} ->
             io:format("Message from ~p: ~p~n", [FromName, Message]);
         user_list -> 
-            {messenger, Server_Node} ! {self(),user_list,User_List},
-            io:format("list is now: ~p~n", [User_List])
+            {messenger, Server_Node} ! {self(),user_list},
+            Aux = await_result(),
+            Aux
+                
     end,
     client(Server_Node).
 
@@ -171,5 +176,8 @@ await_result() ->
             io:format("~p~n", [Why]),
             exit(normal);
         {messenger, What} ->  % Normal response
-            io:format("~p~n", [What])
+            io:format("~p~n", [What]);
+        {messenger, data ,What}->
+            io:format("chequeo respuesta :~p~n", [What]),
+            What
     end.
