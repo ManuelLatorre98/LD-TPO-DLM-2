@@ -49,8 +49,8 @@
 %%% name of the node where the messenger server runs
 
 -module(messenger).
--export([start_server/0, server/1, logon/1, logoff/0, message/2, client/2]).
--compile(export_all).
+-export([start_server/0,get_user_list/0, server/1, logon/1, logoff/0, message/2, client/2]).
+
 %%% Change the function below to return the name of the node where the
 %%% messenger server runs
 server_node() ->
@@ -69,6 +69,10 @@ server(User_List) ->
         {From, message_to, To, Message} ->
             server_transfer(From, To, Message, User_List),
             io:format("list is now: ~p~n", [User_List]),
+            server(User_List);
+        {From,user_list} ->
+            %io:format("FLAGGG ~p ~n",User_List),
+            From ! {messenger,data, User_List},
             server(User_List)
     end.
 
@@ -127,6 +131,20 @@ logon(Name) ->
 logoff() ->
     mess_client ! logoff.
 
+get_user_list() -> 
+    mess_client ! {self(),user_list},
+    ListaUsuarios=await_result_client(),
+    ListaNombres=get_nombres(ListaUsuarios,[]),
+    %io:format("TESTT AUX: ~p~n", [ListaNombres]),
+    ListaNombres.
+    
+get_nombres([{Pid,Nombre}|T],NewList)-> 
+    get_nombres(T,[Nombre|NewList]);
+
+get_nombres([{Pid,Nombre}],NewList)->[Nombre|NewList];
+
+get_nombres([],NewList)->NewList.
+
 message(ToName, Message) ->
     case whereis(mess_client) of % Test if the client is running
         undefined ->
@@ -151,7 +169,12 @@ client(Server_Node) ->
             {messenger, Server_Node} ! {self(), message_to, ToName, Message},
             await_result();
         {message_from, FromName, Message} ->
-            io:format("Message from ~p: ~p~n", [FromName, Message])
+            io:format("Message from ~p: ~p~n", [FromName, Message]);
+        {From,user_list} -> 
+            {messenger, Server_Node} ! {self(),user_list},
+            Aux = await_result(),
+            From ! {lista,Aux}
+                
     end,
     client(Server_Node).
 
@@ -162,5 +185,14 @@ await_result() ->
             io:format("~p~n", [Why]),
             exit(normal);
         {messenger, What} ->  % Normal response
-            io:format("~p~n", [What])
+            io:format("~p~n", [What]);
+        {messenger, data ,What}->
+            io:format("chequeo respuesta :~p~n", [What]),
+            What
+    end.
+
+await_result_client() -> 
+    receive
+        {lista,Respuesta} ->
+            Respuesta
     end.
