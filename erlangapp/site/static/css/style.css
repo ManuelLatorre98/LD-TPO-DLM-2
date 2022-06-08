@@ -89,7 +89,7 @@ a:hover, a:active {
 .mensaje{
     
     border: 1px solid black;
-    
+    padding: 0 0 20px 20px;
 }
 .formTitle{
     width: auto;
@@ -123,5 +123,17 @@ a:hover, a:active {
 }
 .formButton{
     height: 25px;
+    
+}
+.listaUsuarios{
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.sendMensaje{
+    display: flex;
+    height: 100%;
+    align-items: flex-end;
+    
     
 }
