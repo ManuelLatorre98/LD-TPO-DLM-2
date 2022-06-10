@@ -68,6 +68,9 @@ a:hover, a:active {
    grid-template-columns: 30% 70%;
    gap: 20px;
    height: 800px;
+   width: 60%;
+  /*  padding: 0 110px 0px 110px;
+   background-color: #818181; */
 }
 
 .form{
@@ -81,16 +84,37 @@ a:hover, a:active {
     margin-top: 100px;
 }
 .usuariosConectados{
-    
-    border: 1px solid black;
+    padding: 0px 0px 20px 20px;
+    border: 2px solid black;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     
 
 }
 .mensaje{
-    
-    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid black;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 0 20px 20px 20px;
     
 }
+
+.mainHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.chatPanel{
+    border: 1px solid black;
+    height: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
 .formTitle{
     width: auto;
     text-align: center;
@@ -101,17 +125,20 @@ a:hover, a:active {
 }
 
 .colorTitulo{
-    color: red;
+    color: black;
 }
 
 .cajaTexto{
-    width: 70%;
+    width: 90%;
+    margin-right: 10px;
 }
 #sendButton{
-    color: red;
+    color: black;
 }
 .userName{
-    color: violet;
+    display: flex;
+    align-self: left;
+    color: black;
 }
 
 .field{
@@ -125,17 +152,15 @@ a:hover, a:active {
     height: 25px;
     
 }
+.listaUsuarios{
+    list-style-type: none;
+    padding-left: 10px;
+}
 
-.header{
+.sendMensaje{
     display: flex;
-    background-color: pink;
-    height: 10vh;
-    justify-content: right;
-    align-items: center;
-    padding-right: 50px;
+   /*  height: 100%; */
+    flex-direction: row; 
+    width: 100%;
+    
 }
-
-.logoutButton{
-   
-}
-

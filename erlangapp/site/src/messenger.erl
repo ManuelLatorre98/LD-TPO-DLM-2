@@ -49,7 +49,7 @@
 %%% name of the node where the messenger server runs
 
 -module(messenger).
--export([start_server/0,get_user_list/0, server/1, logon/1, logoff/0, message/2, client/2]).
+-export([start_server/0,get_user_list/0, server/1, logon/1, logoff/0, message/2,message_all/1, client/2,get_historial_chat/0]).
 
 %%% Change the function below to return the name of the node where the
 %%% messenger server runs
@@ -69,6 +69,9 @@ server(User_List) ->
         {From, message_to, To, Message} ->
             server_transfer(From, To, Message, User_List),
             io:format("list is now: ~p~n", [User_List]),
+            server(User_List);
+        {From,message_to_all,Message}->
+            server_transfer_all(From, Message, User_List),
             server(User_List);
         {From,user_list} ->
             %io:format("FLAGGG ~p ~n",User_List),
@@ -118,6 +121,22 @@ server_transfer(From, Name, To, Message, User_List) ->
             From ! {messenger, sent} 
     end.
 
+server_transfer_all(From, Message, User_List) ->
+    case lists:keysearch(From, 1, User_List) of
+        false ->
+            From ! {messenger, stop, you_are_not_logged_on};
+        {value, {From, Name}} ->
+            server_transfer_all(From, Name, Message, User_List)
+    end.
+server_transfer_all(From, Name, Message, User_List) ->
+        enviar_all(User_List,Name,Message), 
+        From ! {messenger, sent} .
+
+enviar_all([{ToPid,Nombre}|T],Name,Message)-> 
+    ToPid ! {message_from, Name, Message},
+    enviar_all(T,Name,Message);
+enviar_all([],Name,Message)->ok.
+
 
 %%% User Commands
 logon(Name) ->
@@ -141,9 +160,14 @@ get_user_list() ->
 get_nombres([{Pid,Nombre}|T],NewList)-> 
     get_nombres(T,[Nombre|NewList]);
 
-get_nombres([{Pid,Nombre}],NewList)->[Nombre|NewList];
+%get_nombres([{Pid,Nombre}],NewList)->[Nombre|NewList];
 
 get_nombres([],NewList)->NewList.
+
+get_historial_chat() ->
+    mess_client ! {self(),historial_chat},
+    Historial=await_result_client(),
+    Historial.
 
 message(ToName, Message) ->
     case whereis(mess_client) of % Test if the client is running
@@ -153,30 +177,46 @@ message(ToName, Message) ->
              ok
 end.
 
-
+message_all(Message) -> 
+    case whereis(mess_client) of % Test if the client is running
+        undefined ->
+            not_logged_on;
+        _ -> mess_client ! {message_all, Message},
+             ok
+    end.
 %%% The client process which runs on each server node
 client(Server_Node, Name) ->
     {messenger, Server_Node} ! {self(), logon, Name},
     await_result(),
-    client(Server_Node).
+    client_aux(Server_Node,[]).
 
-client(Server_Node) ->
+client_aux(Server_Node,ListaHistorial) ->
     receive
         logoff ->
             {messenger, Server_Node} ! {self(), logoff},
             exit(normal);
         {message_to, ToName, Message} ->
             {messenger, Server_Node} ! {self(), message_to, ToName, Message},
-            await_result();
+            await_result(),
+            client_aux(Server_Node,ListaHistorial);
+        {message_all, Message} ->
+            {messenger, Server_Node} ! {self(), message_to_all, Message},
+            await_result(),
+            client_aux(Server_Node,ListaHistorial);
         {message_from, FromName, Message} ->
-            io:format("Message from ~p: ~p~n", [FromName, Message]);
+            NewListaHistorial=ListaHistorial++[{FromName,Message}],
+            io:format("Message from ~p: ~p~n", [FromName, Message]),
+            client_aux(Server_Node,NewListaHistorial);
         {From,user_list} -> 
             {messenger, Server_Node} ! {self(),user_list},
             Aux = await_result(),
-            From ! {lista,Aux}
+            From ! {lista,Aux},
+            client_aux(Server_Node,ListaHistorial);
+        {From,historial_chat}->
+            From ! {lista,ListaHistorial},
+            client_aux(Server_Node,ListaHistorial)
                 
-    end,
-    client(Server_Node).
+    end.
 
 %%% wait for a response from the server
 await_result() ->
@@ -195,4 +235,11 @@ await_result_client() ->
     receive
         {lista,Respuesta} ->
             Respuesta
+    end.
+
+historial_chat(Lista)->
+    receive
+    {nuevo_mensaje,FromName,Message}->
+        NuevaLista=[{FromName,Message}|Lista],
+    historial_chat(NuevaLista)
     end.
