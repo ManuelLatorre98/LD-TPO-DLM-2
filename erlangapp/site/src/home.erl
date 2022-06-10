@@ -27,7 +27,10 @@ mid() ->
     CurrentUser =  wf:user() ,
     ListaChat= messenger:get_historial_chat(),
     #panel {class='mensaje',body=[
-        #label{class='userName', text=CurrentUser},
+        #panel{class='mainHeader', body=[
+            #label{class='namePage', text="Messenger"},
+            #label{class='userName', text=CurrentUser}
+        ]},
         #panel{class='chatPanel',body=[
             #list{
             class='chat',  
