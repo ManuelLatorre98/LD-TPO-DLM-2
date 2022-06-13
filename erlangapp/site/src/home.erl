@@ -11,6 +11,8 @@ body() ->
     #container_12 {class=bodyContainer, body=[
         left(),
         mid()
+       
+       
     ]}.
     
 
@@ -29,6 +31,7 @@ left() ->
     ]}.
 
 mid() -> 
+    wf:comet_global(fun()->refresh() end,chatpool),
     CurrentUser =  wf:user() , 
     ListaChat= messenger:get_historial_chat(),
     #panel {class='messagesContainer',body=[
@@ -37,13 +40,12 @@ mid() ->
         %     #label{class='userName', text=CurrentUser}
         % ]},
         #panel{class='chatPanel',body=[
-            #list{
-            class='chat',  
-            body=[#listitem{class='messageList', body=[
-                #panel{class='messageCardContainer', body=[
-                    #p{class='messageCard_UserInfo', text= [Nombre,":"]},
-                    #p{class='messageCard_message', text=[Mensaje]}
-                ]}
+            #list{class='chat',body=[
+                #listitem{class='messageList', body=[
+                    #panel{class='messageCardContainer', body=[
+                        #p{class='messageCard_UserInfo', text= [Nombre,":"]},
+                        #p{class='messageCard_message', text=[Mensaje]}
+                    ]}
                 %[Nombre],": ",[Mensaje]
                 ]
             
@@ -59,5 +61,13 @@ mid() ->
 event(chat) ->
         Mensaje = wf:q(messageTextBox),
         %?PRINT("HOLA"). %messenger:server(user_list),
-        messenger:message_all(Mensaje).
+        messenger:message_all(Mensaje),
+        wf:send_global(chatpool,{reload})
+        .
 
+refresh()->
+    receive
+        {reload} -> wf:redirect("/home")
+    end,
+    wf:flush(),
+    refresh().
