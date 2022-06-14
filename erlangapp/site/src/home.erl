@@ -10,7 +10,8 @@ body() ->
 
     #container_12 {class=bodyContainer, body=[
         left(),
-        mid()
+        mid(),
+        #p{class='names', text="Santiago Villarroel, Santino Castagno, Carlos Campos , Manuel Latorre - Lenguajes Declarativos 2021"}
     ]}.
     
 
@@ -39,20 +40,19 @@ mid() ->
         #panel{class='chatPanel',body=[
             #list{
             class='chat',  
-            body=[#listitem{class='messageList', body=[
+            body=[#listitem{class='messageItem', body=[
                 #panel{class='messageCardContainer', body=[
                     #p{class='messageCard_UserInfo', text= [Nombre,":"]},
                     #p{class='messageCard_message', text=[Mensaje]}
                 ]}
-                %[Nombre],": ",[Mensaje]
                 ]
             
             
             }|| {Nombre,Mensaje} <- ListaChat]}
         ]},
         #panel{class='sendMensaje',body=[
-            #textbox { id=messageTextBox, class='cajaTexto', next=sendButton },
-            #button { id=sendButton, text="Enviar", postback=chat }
+            #textbox { id=messageTextBox, class='textBox', next=sendButton },
+            #button { id=sendButton, class='buttonSend',text="Enviar", postback=chat }
         ]}
     ]}.
 

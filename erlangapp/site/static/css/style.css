@@ -11,6 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100%;
+    background-image: url(./background.png);
 }
 
 .container_12 {
@@ -72,40 +73,51 @@ a:hover, a:active {
     margin: auto;
     margin-top: 100px;
 }*/
-.bodyContainer{
-   display: grid;
-   background-color: #eee;
-   grid-template-columns: 30% 70%;
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+::-webkit-scrollbar-thumb {
+    background-color: #24645c;
+    border-radius: 10px;
+  }
 
-   min-height: 600px;
-   width: 60%;
-   border-radius: 10px;
-   padding: 20px;
-  /*  padding: 0 110px 0px 110px;
-   background-color: #818181; */
+.bodyContainer{
+    display: grid;
+    background-color: #192329;
+    grid-template-columns: 30% 70%;
+    height: 600px;
+    width: 60%;
+    border-radius: 10px;
+    padding: 20px;
 }
 
 
 .leftContainer{
-   margin-right: 20px;
-   /* 
-    border: 2px solid black;
-    border-radius: 5px;*/
-
-
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-right: 20px;
 }
 .connectedUsersTitle{
     display: flex;
     align-self: left;
-    color: black;
+    color:gainsboro;
     font-size: 1.3vw;
     margin-bottom: 10px;
 }
 .connectedUsersContainer{
-    height: auto;
-    background-color: white;
+    background-color: #212c32;
     border-radius: 5px;
-
+    position: inherit;
+    height: 550px;
+    overflow: hidden;
+    overflow-y: scroll ;
+    
 }
 
 .listaUsuarios{
@@ -117,37 +129,56 @@ a:hover, a:active {
 .userCard{
     display: flex;
     height: 50px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #24645c;
     align-items: center;
-  
     font-size: 1.1vw;
     padding-left: 15px;
+    color:gainsboro;
 }
 
 
-.messagesContainer{
+.messagesContainer{    
     display: flex;
     flex-direction: column;
-    background-color: #eee; 
-    
+    background-color: #192329;
+    height: 100%;
+    color:gainsboro;
 }
 
 .chatHeader{
     display: flex;
     justify-content: space-between;
+
 }
 
 .chatPanel{
-    background-color: white;
-    height: 100%;
+    background-color: #212c32;
     margin-bottom: 30px;
     border-radius: 5px;
     padding: 20px;
-    overflow-y: scroll;
+    height: 100vh;
+    max-height: 487px;
+    overflow: hidden;
+    overflow-y: scroll ;
+    transform:rotateX(180deg);
+                -moz-transform:rotateX(180deg); /* Mozilla */
+                -webkit-transform:rotateX(180deg); /* Safari and Chrome */
+                -ms-transform:rotateX(180deg); /* IE 9+ */
+                -o-transform:rotateX(180deg); /* Opera */
     
 }
-.messageList{
+
+.chat{
+    transform:rotateX(180deg);
+                -moz-transform:rotateX(180deg); /* Mozilla */
+                -webkit-transform:rotateX(180deg); /* Safari and Chrome */
+                -ms-transform:rotateX(180deg); /* IE 9+ */
+                -o-transform:rotateX(180deg); /* Opera */
+}
+
+.messageItem{
     list-style: none;
+   
 }
 .messageCardContainer{
     padding-bottom: 10px;
@@ -157,21 +188,42 @@ a:hover, a:active {
     margin: 0;
     font-size: 1.2em;
     font-weight: 600;
-    color:blue
+    color:#1cac94;
 }
 .messageCard_message{
     margin:0;
- 
     padding-left: 40px;
     font-size: 1em;
     line-height: .9em;
+    word-wrap: break-word;
 }
 .sendMensaje{
     display: flex;
     flex-direction: row; 
-    width: 100%;
-    
+    height: 35px;
+    width: 100%; 
 }
+.textBox{
+    width: 90%;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 0;
+    font-size: 1.2em;
+    padding: 0 20px 0 20px;
+    background-color: #303c44;
+    color: gainsboro;
+}
+
+.buttonSend{
+    border: none;
+    border-radius: 20px;
+    width: 80px;
+    background-color: #1cac94;
+}
+
+
+
+
 .formTitle{
     width: auto;
     text-align: center;
@@ -185,10 +237,7 @@ a:hover, a:active {
     color: black;
 }
 
-.cajaTexto{
-    width: 90%;
-    margin-right: 10px;
-}
+
 #sendButton{
     color: black;
 }
@@ -206,5 +255,11 @@ a:hover, a:active {
     
 }
 
-
+.names{
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    margin: 0;
+    color:gray
+}
 
