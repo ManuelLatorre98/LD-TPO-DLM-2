@@ -10,8 +10,9 @@ main() -> #template { file="./site/templates/bare.html" }.
 title() -> "Unconnect log in".
 
 body() ->
-    #panel {class=bodyContainer, body=[
-        join() %Podemos insertar los componentes asi nomas
+    #panel {class=loginContainer, body=[
+        join(), %Podemos insertar los componentes asi nomas
+        #p{class='names', text="Santiago Villarroel, Santino Castagno, Carlos Campos , Manuel Latorre - Lenguajes Declarativos 2021"}
     ]}.
 
 
@@ -27,10 +28,12 @@ join() ->
         %     }
         % ]}),
     #panel {class=form,body=[
-        #label{class='formTitle colorTitulo', text="Iniciar sesión"},
-        #textbox{id=nombreUsuario ,class='field', size=10, placeholder="Nombre de usuario"},
+        
+        #label{class='formTitle', text="Iniciar sesión"},
+        
+        #textbox{id=nombreUsuario ,class='textLogon', size=10, placeholder="Nombre de usuario"},
         %#password{id=password,class=field, size=10, placeholder="Contraseña"},
-        #button{class='formButton', text="Iniciar sesion", postback=login}
+        #button{class='button_logon', text="Iniciar Sesión", postback=login}
     ]}.
 
  event(login) ->
@@ -40,6 +43,7 @@ join() ->
         wf:user(User),
         ?PRINT(User),
         messenger:logon(User),
+        wf:send_global(chatpool,{reload}),
         wf:redirect_from_login("/home").
 
 %K2DNKVSOZt6iT1W3Vpbhjlt6emd9sK9g6OIedMhMKotcDEbZ71SlhQSi7J3SuXz
