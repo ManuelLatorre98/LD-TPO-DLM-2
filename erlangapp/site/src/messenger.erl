@@ -49,7 +49,7 @@
 %%% name of the node where the messenger server runs
 
 -module(messenger).
--export([start_server/0,get_user_list/0, server/1, logon/1, logoff/0, message/2,message_all/1, client/2,get_historial_chat/0]).
+-export([start_server/0,get_user_list/0, server/1, logon/1, logoff/0,message_all/1, client/2,get_historial_chat/0]).
 
 %%% Change the function below to return the name of the node where the
 %%% messenger server runs
@@ -66,15 +66,10 @@ server(User_List) ->
         {From, logoff} ->
             New_User_List = server_logoff(From, User_List),
             server(New_User_List);
-        {From, message_to, To, Message} ->
-            server_transfer(From, To, Message, User_List),
-            io:format("list is now: ~p~n", [User_List]),
-            server(User_List);
         {From,message_to_all,Message}->
             server_transfer_all(From, Message, User_List),
             server(User_List);
         {From,user_list} ->
-            %io:format("FLAGGG ~p ~n",User_List),
             From ! {messenger,data, User_List},
             server(User_List)
     end.
@@ -82,7 +77,6 @@ server(User_List) ->
 %%% Start the server
 start_server() ->
     register(messenger, spawn(messenger, server, [[]])).
-
 
 %%% Server adds a new user to the user list
 server_logon(From, Name, User_List) ->
@@ -101,41 +95,20 @@ server_logoff(From, User_List) ->
     lists:keydelete(From, 1, User_List).
 
 
-%%% Server transfers a message between user
-server_transfer(From, To, Message, User_List) ->
-    %% check that the user is logged on and who he is
-    case lists:keysearch(From, 1, User_List) of
-        false ->
-            From ! {messenger, stop, you_are_not_logged_on};
-        {value, {From, Name}} ->
-            server_transfer(From, Name, To, Message, User_List)
-    end.
-%%% If the user exists, send the message
-server_transfer(From, Name, To, Message, User_List) ->
-    %% Find the receiver and send the message
-    case lists:keysearch(To, 2, User_List) of
-        false ->
-            From ! {messenger, receiver_not_found};
-        {value, {ToPid, To}} ->
-            ToPid ! {message_from, Name, Message}, 
-            From ! {messenger, sent} 
-    end.
-
 server_transfer_all(From, Message, User_List) ->
     case lists:keysearch(From, 1, User_List) of
         false ->
             From ! {messenger, stop, you_are_not_logged_on};
         {value, {From, Name}} ->
-            server_transfer_all(From, Name, Message, User_List)
+            send_to_all(User_List,Name,Message), 
+            From ! {messenger, sent}
     end.
-server_transfer_all(From, Name, Message, User_List) ->
-        enviar_all(User_List,Name,Message), 
-        From ! {messenger, sent} .
 
-enviar_all([{ToPid,Nombre}|T],Name,Message)-> 
+
+send_to_all([{ToPid,_}|T],Name,Message)-> 
     ToPid ! {message_from, Name, Message},
-    enviar_all(T,Name,Message);
-enviar_all([],Name,Message)->ok.
+    send_to_all(T,Name,Message);
+send_to_all([],_,_)->ok.
 
 
 %%% User Commands
@@ -152,30 +125,21 @@ logoff() ->
 
 get_user_list() -> 
     mess_client ! {self(),user_list},
-    ListaUsuarios=await_result_client(),
+    ListaUsuarios=await_result(),
     ListaNombres=get_nombres(ListaUsuarios,[]),
-    %io:format("TESTT AUX: ~p~n", [ListaNombres]),
     ListaNombres.
     
-get_nombres([{Pid,Nombre}|T],NewList)-> 
+get_nombres([{_,Nombre}|T],NewList)-> 
     get_nombres(T,[Nombre|NewList]);
 
-%get_nombres([{Pid,Nombre}],NewList)->[Nombre|NewList];
 
 get_nombres([],NewList)->NewList.
 
 get_historial_chat() ->
     mess_client ! {self(),historial_chat},
-    Historial=await_result_client(),
+    Historial=await_result(),
     Historial.
 
-message(ToName, Message) ->
-    case whereis(mess_client) of % Test if the client is running
-        undefined ->
-            not_logged_on;
-        _ -> mess_client ! {message_to, ToName, Message},
-             ok
-end.
 
 message_all(Message) -> 
     case whereis(mess_client) of % Test if the client is running
@@ -195,10 +159,6 @@ client_aux(Server_Node,ListaHistorial) ->
         logoff ->
             {messenger, Server_Node} ! {self(), logoff},
             exit(normal);
-        {message_to, ToName, Message} ->
-            {messenger, Server_Node} ! {self(), message_to, ToName, Message},
-            await_result(),
-            client_aux(Server_Node,ListaHistorial);
         {message_all, Message} ->
             {messenger, Server_Node} ! {self(), message_to_all, Message},
             await_result(),
@@ -228,18 +188,10 @@ await_result() ->
             io:format("~p~n", [What]);
         {messenger, data ,What}->
             io:format("chequeo respuesta :~p~n", [What]),
-            What
-    end.
-
-await_result_client() -> 
-    receive
+            What;
         {lista,Respuesta} ->
             Respuesta
     end.
 
-historial_chat(Lista)->
-    receive
-    {nuevo_mensaje,FromName,Message}->
-        NuevaLista=[{FromName,Message}|Lista],
-    historial_chat(NuevaLista)
-    end.
+
+
