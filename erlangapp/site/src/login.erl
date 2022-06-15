@@ -12,7 +12,7 @@ title() -> "Unconnect log in".
 body() ->
     #panel {class=loginContainer, body=[
         join(), %Podemos insertar los componentes asi nomas
-        #p{class='names', text="Santiago Villarroel, Santino Castagno, Carlos Campos , Manuel Latorre - Lenguajes Declarativos 2021"}
+        #p{class='names', text="Santiago Villarroel, Santino Castagno, Carlos Campos , Manuel Latorre - Lenguajes Declarativos 2022"}
     ]}.
 
 

@@ -11,7 +11,7 @@ body() ->
     #container_12 {class=bodyContainer, body=[
         left(),
         mid(),
-        #p{class='names', text="Santiago Villarroel, Santino Castagno, Carlos Campos , Manuel Latorre - Lenguajes Declarativos 2021"}
+        #p{class='names', text="Santiago Villarroel, Santino Castagno, Carlos Campos , Manuel Latorre - Lenguajes Declarativos 2022"}
     ]}.
     
 
