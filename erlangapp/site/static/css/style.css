@@ -198,7 +198,7 @@ a:hover, a:active {
     border-bottom: 1px solid gray;
 }
 .messageCard_UserInfo{
-    margin: 0;
+    margin-left: 10px;
     font-size: 1.2em;
     font-weight: 600;
     color:#1cac94;
@@ -234,6 +234,10 @@ a:hover, a:active {
     border-radius: 20px;
     width: 80px;
     background-color: #1cac94;
+    transition: .5s;
+}
+.buttonSend:hover{
+    color: white;
 }
 .button_logout{
     border: none;
@@ -241,6 +245,10 @@ a:hover, a:active {
     width: 100px;
     margin-bottom: 10px;
     background-color: #1cac94;
+    transition: .5s;
+}
+.button_logout:hover{
+    color: white;
 }
 
 
@@ -303,7 +311,11 @@ a:hover, a:active {
     height: 30px;
     background-color: #1cac94;
     font-size: 1em;
-    
+    transition: .5s;
+}
+
+.button_logon:hover{
+    color:white;
 }
 .textLogon{
     background-color: #212c32;

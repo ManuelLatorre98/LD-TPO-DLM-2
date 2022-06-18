@@ -17,16 +17,6 @@ body() ->
 
 
 join() -> 
-    wf:wire(submit, nombreUsuario, #validate { validators=[
-            #is_required { text="Required." }
-        ]}),
-        % wf:wire(submit, password, #validate { validators=[
-        %     #is_required { text="Required." },
-        %     #custom { 
-        %         text="Invalid password.", 
-        %         function=fun(_, Value) -> Value == "password" end
-        %     }
-        % ]}),
     #panel {class=form,body=[
         
         #label{class='formTitle', text="Iniciar sesión"},
