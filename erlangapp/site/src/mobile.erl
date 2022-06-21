@@ -51,3 +51,4 @@ event(toggle_menu) ->
         "on" -> wf:wire(menu,#appear{});
         "off" -> wf:wire(menu,#fade{})
     end.
+

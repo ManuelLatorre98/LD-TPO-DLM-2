@@ -28,3 +28,4 @@ head() ->
 event(logout) ->
     wf:logout(),
     wf:redirect_to_login("/login").
+

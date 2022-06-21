@@ -29,3 +29,4 @@ init([]) ->
     application:start(simple_bridge),
 
     {ok, { {one_for_one, 5, 10}, []} }.
+
